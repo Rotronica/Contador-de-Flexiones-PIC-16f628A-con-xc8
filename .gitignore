@@ -1,0 +1,4 @@
+# Archivos ignorados 
+_build
+.vscode
+out
