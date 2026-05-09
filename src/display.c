@@ -24,6 +24,11 @@ void display_init(void) {
   // Puerto de salida para display del RB0-RB6
   TRISB &= ~(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6);
   PORTB &= ~(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6);
+  // Pantalla display mostrando 000
+  buffer_datos[0] = segmentos[0];
+  buffer_datos[1] = segmentos[0];
+  buffer_datos[2] = segmentos[0];
+  display_multiplexar();
 }
 void display_visual_contador(uint16_t numero) {
   if (numero >= 100) {

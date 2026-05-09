@@ -5,5 +5,4 @@
 void flexiones_init(void);
 uint8_t flexiones_actualizar(uint16_t distancia, uint8_t umbral_flexion,
                              uint8_t umbral_arriba);
-bool alarma_flexion_on(void);
-void alarma_flexion_off(bool alarma_off);
+uint16_t flexiones_get_conteo(void);

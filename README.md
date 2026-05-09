@@ -91,7 +91,7 @@ contador_flexiones/
 #pragma config FOSC = INTOSCIO   // Oscilador interno, RA6/RA7 I/O
 #pragma config WDTE = OFF        // Watchdog deshabilitado
 #pragma config PWRTE = ON        // Power-up timer
-#pragma config MCLRE = OFF       // MCLR desactivado (pin RA5 libre)
+#pragma config MCLRE = ONN       // MCLR activado 
 #pragma config BOREN = OFF       // Brown-out reset
 #pragma config LVP = OFF         // Low Voltage Programming
 #pragma config CPD = OFF         // Protección EEPROM

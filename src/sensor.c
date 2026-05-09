@@ -1,6 +1,7 @@
 #define _XTAL_FREQ 4000000 // 4 MHz (frecuencia del oscilador interno)
 
 #include "../include/sensor.h"
+#include "../include/display.h"
 #include <stdint.h>
 #include <xc.h>
 
@@ -39,8 +40,8 @@ void sensor_init(void) {
 // LECTURA CRUDA DEL SENSOR (SIN FILTRO)
 // ==========================================
 uint16_t sensor_leer_distancia_raw(void) {
-  uint16_t ticks = 0;
-  uint16_t timeout = 0;
+  static uint16_t ticks = 0;
+  static uint16_t timeout = 0;
   uint16_t distancia;
 
   // 1. Enviar pulso TRIG de 10us
@@ -52,6 +53,7 @@ uint16_t sensor_leer_distancia_raw(void) {
   timeout = 0;
   while (ECHO_PIN == 0) {
     timeout++;
+    display_multiplexar();
     if (timeout > 5000) {
       return 0; // Timeout sin eco
     }
@@ -65,6 +67,7 @@ uint16_t sensor_leer_distancia_raw(void) {
   // 4. Medir duración del pulso ECHO
   while (ECHO_PIN == 1) {
     ticks = ((uint16_t)TMR1H << 8) | TMR1L;
+    display_multiplexar();
     if (ticks > TIMEOUT_TICKS) {
       T1CONbits.TMR1ON = 0;
       return 0; // Objeto fuera del rango (más de 50cm)
@@ -90,7 +93,7 @@ uint16_t sensor_leer_distancia_raw(void) {
 // LECTURA CON FILTRO EXPONENCIAL
 // ==========================================
 uint16_t sensor_leer_distancia(void) {
-  uint16_t distancia_nueva;
+  static uint16_t distancia_nueva;
 
   // Obtener lectura cruda del sensor
   distancia_nueva = sensor_leer_distancia_raw();

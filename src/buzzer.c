@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <xc.h>
 
-#define BUZZER_PIN 3 // Pin RB7
+#define BUZZER_PIN 3 // Pin RA3
 #define TIEMPO_MS 500
 
 static bool buzzer_activo = false;

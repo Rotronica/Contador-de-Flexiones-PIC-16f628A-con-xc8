@@ -17,12 +17,9 @@
 #define LIMITE_BAJO 12
 #define LIMITE_ALTO 25
 
-static uint16_t tiempo_parpadeo = 0;
-static bool estado_buzzer = 0;
 int main() {
   static uint8_t contador = 0;
   static uint16_t distancia = 0;
-  bool estado_led = false;
 
   // Configuracion de pines
   CMCON = 0x07;      // <--- ¡LÍNEA CRUCIAL! Apaga todos los comparadores.
@@ -33,12 +30,7 @@ int main() {
   flexiones_init();
   buzzer_init();
   while (1) {
-    // if (alarma_flexion_on()) {
-
-    // PORTB |= (1 << BUZZER_PIN);
-    //}
     buzzer_update();
-
     distancia = sensor_leer_distancia();
     contador = flexiones_actualizar(distancia, LIMITE_BAJO, LIMITE_ALTO);
     display_visual_contador(contador);

@@ -101,3 +101,7 @@ uint8_t flexiones_actualizar(uint16_t distancia, uint8_t umbral_flexion,
   distancia_anterior = distancia;
   return (uint8_t)contador;
 }
+/*uint16_t flexiones_get_conteo(void) {
+  // Solo retorna el ultimo valor contado
+  return contador;
+}*/
