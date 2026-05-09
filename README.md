@@ -100,6 +100,7 @@ contador_flexiones/
 
 # 🧠 Lógica de Funcionamiento
 ---
+```
     ARRIBA (reposo)
        │
        ▼ (distancia < umbral_bajo)
@@ -118,7 +119,7 @@ contador_flexiones/
        │
        ▼ (distancia > umbral_alto)
     ARRIBA → CONTADOR++
-    
+```
 ---
 
 # 📧 Contacto
