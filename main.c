@@ -34,5 +34,6 @@ int main() {
     distancia = sensor_leer_distancia();
     contador = flexiones_actualizar(distancia, LIMITE_BAJO, LIMITE_ALTO);
     display_visual_contador(contador);
+    display_multiplexar();
   }
 }

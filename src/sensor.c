@@ -54,7 +54,7 @@ uint16_t sensor_leer_distancia_raw(void) {
   while (ECHO_PIN == 0) {
     timeout++;
     display_multiplexar();
-    if (timeout > 5000) {
+    if (timeout > 1000) {
       return 0; // Timeout sin eco
     }
   }

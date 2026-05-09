@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <xc.h>
 
-#define TIEMPO 1 // Tiempo de multiplexado ms
+#define TIEMPO 4 // Tiempo de multiplexado ms
 static uint16_t time_1 = 0;
 #define DIGITOS 3
 
@@ -14,8 +14,8 @@ static uint16_t time_1 = 0;
 static const uint8_t segmentos[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66,
                                     0x6D, 0x7D, 0x07, 0x7F, 0x6F};
 static uint8_t buffer_datos[DIGITOS] = {0x3F, 0x3F, 0x3F}; // inicia en 000
-// Prototipo de funcion
-void display_multiplexar(void);
+static uint8_t nuevo_buffer[3];
+static uint8_t actualizacion_pendiente = 0;
 
 void display_init(void) {
   // Configuramaso RA0-RA2 como salidas
@@ -30,27 +30,39 @@ void display_init(void) {
   buffer_datos[2] = segmentos[0];
   display_multiplexar();
 }
+// ==========================================
+// display.c - Versión SIN PARPADEO
+// ==========================================
+
 void display_visual_contador(uint16_t numero) {
+  // Calcular en buffer temporal
   if (numero >= 100) {
-    buffer_datos[0] = segmentos[numero % 10];
-    buffer_datos[1] = segmentos[(numero / 10) % 10];
-    buffer_datos[2] = segmentos[numero / 100];
+    nuevo_buffer[0] = segmentos[numero % 10];
+    nuevo_buffer[1] = segmentos[(numero / 10) % 10];
+    nuevo_buffer[2] = segmentos[numero / 100];
   } else if (numero >= 10) {
-    buffer_datos[0] = segmentos[numero % 10];
-    buffer_datos[1] = segmentos[numero / 10];
-    buffer_datos[2] = 0x00;
+    nuevo_buffer[0] = segmentos[numero % 10];
+    nuevo_buffer[1] = segmentos[numero / 10];
+    nuevo_buffer[2] = 0x00;
   } else {
-    buffer_datos[0] = segmentos[numero];
-    buffer_datos[1] = 0x00;
-    buffer_datos[2] = 0x00;
+    nuevo_buffer[0] = segmentos[numero];
+    nuevo_buffer[1] = 0x00;
+    nuevo_buffer[2] = 0x00;
   }
-  display_multiplexar();
+  actualizacion_pendiente = 1;
 }
 void display_multiplexar(void) {
   if (timer0_espera(&time_1, TIEMPO)) {
     static uint8_t digito_actual = 0;
     // Apagamos todo los digitos
     PORTA &= ~(1 << DISPLAY_1 | 1 << DISPLAY_2 | 1 << DISPLAY_3);
+    // ⭐ Actualizar buffer en el momento seguro (todo apagado)
+    if (actualizacion_pendiente) {
+      buffer_datos[0] = nuevo_buffer[0];
+      buffer_datos[1] = nuevo_buffer[1];
+      buffer_datos[2] = nuevo_buffer[2];
+      actualizacion_pendiente = 0;
+    }
     // Mostrar por puerto hacia display
     PORTB = buffer_datos[digito_actual]; // Simplemente muestra el mensaje en el
                                          // buffer
