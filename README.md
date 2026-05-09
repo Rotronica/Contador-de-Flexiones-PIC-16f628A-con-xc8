@@ -59,7 +59,8 @@ Este proyecto está basado en un **PIC16F628A** y ha sido desarrollado pensando 
 ---
 
 ## 📁 Estructura del Proyecto (MPLAB X)
----
+
+```
 contador_flexiones/
 ├── include/
 │ ├── timer0.h # Base de tiempo (1ms)
@@ -76,8 +77,7 @@ contador_flexiones/
 │ └── buzzer.c # Gestión de pitidos
 ├── main.c # Bucle principal
 ├── README.md
-
----
+```
 
 ## ⚙️ Configuración del Compilador
 
