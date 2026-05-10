@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <xc.h>
 #define LIMITE_BAJO 12
-#define LIMITE_ALTO 25
+#define LIMITE_ALTO 14
 
 int main() {
   static uint8_t contador = 0;
